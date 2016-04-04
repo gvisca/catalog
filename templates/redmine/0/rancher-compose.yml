@@ -1,0 +1,29 @@
+.catalog:
+  name: "Redmine"
+  version: "v3.2.1 Passenger"
+  description: "Redmine 3.2.1 Passenger with PostgreSQL 9.4"
+  questions:
+    - variable: "POSTGRES_USER"
+      label: "Database User"
+      description: "Database Username"
+      type: "string"
+      default: "redmine"
+      required: true
+    - variable: "POSTGRES_PASSWORD"
+      label: "Database Password"
+      description: "Database Password"
+      type: "string"
+      default: "redmine"
+      required: true
+    - variable: "REDMINE_PORT"
+      label: "Redmine Port"
+      description: "Redmine Port"
+      default: "3000"
+      type: "int"
+      required: true
+
+redmine:
+  scale: 1
+  
+postgresql:
+  scale: 1

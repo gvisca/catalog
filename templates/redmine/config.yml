@@ -1,0 +1,5 @@
+name: Redmine
+description: |
+  Redmine 3.2.1 Passenger with PostgreSQL 9.4
+version: v3.2.1 Passenger
+category: Project Management

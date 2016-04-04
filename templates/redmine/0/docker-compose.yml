@@ -1,0 +1,48 @@
+redmine-postgresql-data:
+  image: busybox
+  command: /bin/true
+  labels:
+    io.rancher.container.start_once: 'true'
+  volumes:
+    - /var/lib/postgresql/data
+
+postgresql:
+  image: postgres:9.4
+  environment:
+    - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    - POSTGRES_USER=${POSTGRES_USER}
+  volumes_from:
+    - redmine-postgresql-data
+  labels:
+    io.rancher.sidekicks: redmine-postgresql-data
+
+redmine-files-data:
+  image: busybox
+  command: /bin/true
+  labels:
+    io.rancher.container.start_once: 'true'
+  volumes:
+    - /usr/src/redmine/files
+
+redmine:
+  image: redmine:3.2.1-passenger
+  tty: true
+  stdin_open: true
+  links:
+    - postgresql:postgres
+  volumes_from:
+    - redmine-files-data
+  labels:
+    io.rancher.sidekicks: redmine-files-data
+  # ports:
+  #   - ${REDMINE_PORT}:3000
+
+redmine-lb:
+  tty: true
+  ports:
+  - ${REDMINE_PORT}:3000
+  tty: true
+  image: rancher/load-balancer-service
+  links:
+  - redmine:redmine
+  stdin_open: true
